@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
+from stats.tensor import tensor
 
 
 def fit(func, prior, parameters, observations, iter=1000, lr=0.1):
@@ -62,10 +63,6 @@ def parameter_prior(args, mean_pdf, std_pdf):
     mean_prior = mean_pdf(mean)
     std_prior = std_pdf(std)
     return mean_prior * std_prior
-
-
-def tensor(arr, dtype=torch.cuda.DoubleTensor):
-    return torch.from_numpy(np.array(arr)).type(dtype)
 
 
 if __name__ == '__main__':

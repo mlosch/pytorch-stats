@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
+from stats import map
+from stats.tensor import tensor
 
 
 def fit(func, parameters, observations, iter=1000, lr=0.1):
@@ -27,17 +29,22 @@ def fit(func, parameters, observations, iter=1000, lr=0.1):
 
     """
 
-    for i in range(iter):
-        # Define objective function (log-likelihood) to maximize
-        likelihood = torch.mean(torch.log(func(observations)))
+    # Use MAP with uniform prior
+    prior_ = Variable(tensor(1.0))
+    return map.fit(func, lambda x: prior_, parameters, observations, iter, lr)
 
-        # Determine gradients
-        likelihood.backward()
-
-        # Update parameters with gradient descent
-        for param in parameters:
-            param.data.add_(lr * param.grad.data)
-            param.grad.data.zero_()
+    # Explicit implementation without prior:
+    # for i in range(iter):
+    #     # Define objective function (log-likelihood) to maximize
+    #     likelihood = torch.mean(torch.log(func(observations)))
+    #
+    #     # Determine gradients
+    #     likelihood.backward()
+    #
+    #     # Update parameters with gradient descent
+    #     for param in parameters:
+    #         param.data.add_(lr * param.grad.data)
+    #         param.grad.data.zero_()
 
 
 def normal_pdf(x, mean, std):
@@ -50,10 +57,9 @@ if __name__ == '__main__':
     """
     Estimate mean and std of a normal distribution via MLE on 10000 observations
     """
-    dtype = torch.cuda.DoubleTensor
 
-    mean = Variable(torch.zeros(1).type(dtype), requires_grad=True)
-    std = Variable(torch.ones(1).type(dtype), requires_grad=True)
+    mean = Variable(tensor(0), requires_grad=True)
+    std = Variable(tensor(1), requires_grad=True)
 
     func = lambda x: normal_pdf(x, mean, std)
 
@@ -61,7 +67,7 @@ if __name__ == '__main__':
     true_mean = np.random.rand()
     true_std = np.random.rand()
     x = true_mean + np.random.randn(10000) * true_std
-    x = Variable(torch.from_numpy(x)).type(dtype)
+    x = Variable(tensor(x))
 
     fit(func, [mean, std], x)
 
