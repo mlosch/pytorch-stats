@@ -11,4 +11,6 @@ Incorporated algorithms:
 ### Examples
 Given a bimodal normal distribution of unkown parameters, 
 utilizing a prior can greatly improve the estimator as seen below.
+The code for this plot can be found in the [MAP implementation](stats/map.py)
+and can be run via `python -m stats.map`.
 ![ims/map_vs_mle.png](ims/map_vs_mle.png)
