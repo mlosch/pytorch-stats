@@ -117,9 +117,9 @@ if __name__ == '__main__':
     estimate_y = np_pdf(xx, mean_estimate.data[0], std_estimate.data[0])
     mle_y = np_pdf(xx, x.mean(), x.std())
 
-    plt.plot(xx, true_y, 'g-', label='Target model')
-    plt.plot(xx, outlier_y, 'r-', label='Distractor model')
-    plt.plot(xx, estimate_y, 'b-', label='Estimated model')
+    plt.plot(xx, true_y, 'g-', label='Target pdf')
+    plt.plot(xx, outlier_y, 'r-', label='Distractor pdf')
+    plt.plot(xx, estimate_y, 'b-', label='MAP Estimate')
     plt.plot(xx, mle_y, 'k-', label='MLE')
     plt.legend()
 
