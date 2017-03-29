@@ -4,15 +4,27 @@ from torch.autograd import Variable
 
 
 def fit(func, parameters, observations, iter=1000, lr=0.1):
-    """
-    Estimates the parameters of an arbitrary function via maximum likelihood estimation and
+    """Estimates the parameters of an arbitrary function via maximum likelihood estimation and
     uses plain old gradient descent for optimization
-    :param func: Lambda function
-    :param parameters:
-    :param observations: Observations from an unknown pdf which parameters we want to estimate
-    :param iter: Maximum number of iterations
-    :param lr: Learning rate
-    :return:
+
+
+    Parameters
+    ----------
+    func :          Callable pdf
+                    Callable probability density function (likelihood function)
+                    expecting an array of observations as the only argument.
+    parameters :    List
+                    List of parameters that are subject to optimization.
+    observations :  ndarray
+                    Observations from an unknown pdf which parameters are subject to be estimated
+    iter :          float
+                    Maximum number of iterations
+    lr :            float
+                    Gradient descent learning rate
+
+    Returns
+    -------
+
     """
 
     for i in range(iter):
@@ -28,7 +40,7 @@ def fit(func, parameters, observations, iter=1000, lr=0.1):
             param.grad.data.zero_()
 
 
-def normal_dist_sample(x, mean, std):
+def normal_pdf(x, mean, std):
     mean = mean.expand(x.size())
     var = std.expand(x.size()) ** 2
     return 1./torch.sqrt(2.0*np.pi*var) * torch.exp(- ((x-mean)**2) / (2.0 * var))
@@ -43,7 +55,7 @@ if __name__ == '__main__':
     mean = Variable(torch.zeros(1).type(dtype), requires_grad=True)
     std = Variable(torch.ones(1).type(dtype), requires_grad=True)
 
-    func = lambda x: normal_dist_sample(x, mean, std)
+    func = lambda x: normal_pdf(x, mean, std)
 
     # Sample observations from a normal distribution function with different parameter
     true_mean = np.random.rand()
