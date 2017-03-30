@@ -17,6 +17,8 @@ def tensor(arr, dtype=torch.cuda.DoubleTensor):
     """
     if type(arr) is float or type(arr) is int:
         t = torch.ones(1)*arr
+    elif type(arr) is list or type(arr) is tuple:
+        t = torch.Tensor(arr)
     else:
         t = torch.from_numpy(np.array(arr))
     return t.type(dtype)
