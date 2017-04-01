@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
-from stats import map
+from stats.estimation import map
 from stats.tensor import tensor
 
 
@@ -47,13 +47,8 @@ def fit(func, parameters, observations, iter=1000, lr=0.1):
     #         param.grad.data.zero_()
 
 
-def normal_pdf(x, mean, std):
-    mean = mean.expand(x.size())
-    var = std.expand(x.size()) ** 2
-    return 1./torch.sqrt(2.0*np.pi*var) * torch.exp(- ((x-mean)**2) / (2.0 * var))
-
-
 if __name__ == '__main__':
+    from stats.distributions import Normal
     """
     Estimate mean and std of a normal distribution via MLE on 10000 observations
     """
@@ -61,7 +56,7 @@ if __name__ == '__main__':
     mean = Variable(tensor(0), requires_grad=True)
     std = Variable(tensor(1), requires_grad=True)
 
-    func = lambda x: normal_pdf(x, mean, std)
+    pdf = Normal(mean, std)
 
     # Sample observations from a normal distribution function with different parameter
     true_mean = np.random.rand()
@@ -69,7 +64,7 @@ if __name__ == '__main__':
     x = true_mean + np.random.randn(10000) * true_std
     x = Variable(tensor(x))
 
-    fit(func, [mean, std], x)
+    fit(pdf, [mean, std], x)
 
     print('Estimated parameter: {{{}, {}}}, True parameter: {{{}, {}}}'.format(mean.data[0], std.data[0], true_mean, true_std))
 
