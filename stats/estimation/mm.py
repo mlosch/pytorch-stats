@@ -126,7 +126,7 @@ if __name__ == '__main__':
         true_y = np_pdf(xx, true_params[k][0], true_params[k][1])
         estimated_y = np_pdf(xx, params[k][0].data[0], params[k][1].data[0])
 
-        plt.plot(xx, true_y, '-', label='Target pdf k=%d'%(k+1))
+        plt.plot(xx, true_y, '-.', label='Target pdf k=%d'%(k+1))
         plt.plot(xx, estimated_y, '-', label='Estimated pdf %d' % (k+1))
 
     plt.legend()
