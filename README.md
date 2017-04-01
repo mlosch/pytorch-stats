@@ -13,11 +13,11 @@ Incorporated algorithms:
 #### MAP vs MLE
 Given a bimodal normal distribution of unkown parameters, 
 utilizing a prior can greatly improve the estimator as seen below.
-The code for this plot can be found in the [MAP implementation](stats/map.py)
+The code for this plot can be found in the [MAP implementation](stats/estimation/map.py)
 and can be run via `python -m stats.estimation.map`.
 ![ims/map_vs_mle.png](ims/map_vs_mle.png)
 
 #### Mixture Model MLE
-The code for this plot can be found in the [MM implementation](stats/mm.py)
+The code for this plot can be found in the [MM implementation](stats/estimation/mm.py)
 and can be run via `python -m stats.estimation.mm`.
 ![ims/mm_mle.png](ims/mm_mle.png)
