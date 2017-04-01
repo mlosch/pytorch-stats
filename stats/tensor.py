@@ -1,8 +1,9 @@
 import torch
 import numpy as np
+import numbers
 
 
-def tensor(arr, dtype=torch.cuda.DoubleTensor):
+def tensor(arr, dtype=torch.DoubleTensor):
     """
     Converts a float or an (numpy) array to a torch tensor.
     Parameters
@@ -15,7 +16,7 @@ def tensor(arr, dtype=torch.cuda.DoubleTensor):
     -------
     Torch Tensor
     """
-    if type(arr) is float or type(arr) is int:
+    if isinstance(arr, numbers.Number):
         t = torch.ones(1)*arr
     elif type(arr) is list or type(arr) is tuple:
         t = torch.Tensor(arr)
