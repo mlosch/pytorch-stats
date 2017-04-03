@@ -37,9 +37,9 @@ def fit(pdf, prior, parameters, observations, iter=1000, lr=0.1):
     for i in range(iter):
         # Define objective function (log-likelihood) to maximize
         prior_ = torch.log(prior(parameters))
-        posterior = torch.mean(torch.log(pdf(observations))) + prior_
+        posterior = torch.mean(torch.log(pdf(*observations))) + prior_
 
-        if np.isnan(posterior.data[0]) or np.isnan(prior_.data[0]):
+        if np.isnan(posterior.data[0]):
             return
 
         # Determine gradients
